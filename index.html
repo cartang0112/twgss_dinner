@@ -1805,10 +1805,8 @@
 
         // Input validation and formatting
         const chineseNameInput = document.getElementById('chineseName');
-        const englishNameInput = document.getElementById('englishName');
         const gradYearInput = document.getElementById('gradYear');
         const mobileInput = document.getElementById('mobile');
-        const emailInput = document.getElementById('email');
 
         // Chinese name - only allow Chinese characters
         if (chineseNameInput) {
@@ -1816,15 +1814,6 @@
                 const value = this.value;
                 // Remove non-Chinese characters
                 this.value = value.replace(/[^\u4e00-\u9fa5]/g, '');
-            });
-        }
-
-        // English name - only allow English letters and spaces
-        if (englishNameInput) {
-            englishNameInput.addEventListener('input', function(e) {
-                const value = this.value;
-                // Remove non-English characters (allow a-z, A-Z, and spaces)
-                this.value = value.replace(/[^a-zA-Z\s]/g, '').replace(/\s+/g, ' ').trim();
             });
         }
 
@@ -1854,24 +1843,6 @@
             });
         }
 
-        // Email - validate format when field is filled
-        if (emailInput) {
-            emailInput.addEventListener('blur', function(e) {
-                const value = this.value.trim();
-                if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-                    this.setCustomValidity('請輸入有效的電郵地址');
-                    this.reportValidity();
-                } else {
-                    this.setCustomValidity('');
-                }
-            });
-            
-            // Clear error on input
-            emailInput.addEventListener('input', function(e) {
-                this.setCustomValidity('');
-            });
-        }
-
         if (registrationForm) {
             registrationForm.addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -1881,10 +1852,8 @@
                 
                 const formData = {
                     chineseName: document.getElementById('chineseName').value,
-                    englishName: document.getElementById('englishName').value || '-',
                     gradYear: document.getElementById('gradYear').value,
                     mobile: fullMobile,
-                    email: document.getElementById('email').value || '-',
                     timestamp: new Date().toISOString()
                 };
 
