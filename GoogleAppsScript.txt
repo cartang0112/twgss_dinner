@@ -1,0 +1,17 @@
+function doPost(e) {
+  var sheet = SpreadsheetApp.openById('1ztCay3nE1KSbDOT3BUN9GnyvAMdqnaxYHD4oFe5dgeo').getSheetByName('Sheet1');
+  
+  var data = JSON.parse(e.postData.contents);
+  
+  var lastRow = sheet.getLastRow();
+  var rowData = [
+    data.name,
+    data.year,
+    data.phone,
+    new Date()
+  ];
+  
+  sheet.appendRow(rowData);
+  
+  return ContentService.createTextOutput(JSON.stringify({ 'result': 'success' })).setMimeType(ContentService.MimeType.JSON);
+}
