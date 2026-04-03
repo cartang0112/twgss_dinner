@@ -676,13 +676,13 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label>中文姓名 <span class="optional">(必填)</span></label>
-                                <input type="text" id="chineseName" placeholder="請輸入中文姓名" required pattern="[\u4e00-\u9fa5]+" title="請輸入中文姓名">
+                                <input type="text" id="chineseName" placeholder="請輸入中文姓名" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label>中五/畢業班 <span class="optional">(必填)</span></label>
-                                <input type="text" id="gradYear" placeholder="如: 1997" required pattern="[0-9]{4}" maxlength="4" minlength="4" title="請輸入4位數字年份">
+                                <input type="text" id="gradYear" placeholder="如: 1997" required maxlength="4" minlength="4">
                             </div>
                         </div>
                         <div class="form-row">
@@ -690,7 +690,7 @@
                                 <label>電話號碼 <span class="optional">(必填)</span></label>
                                 <div class="mobile-input-wrapper">
                                     <span class="area-code">852</span>
-                                    <input type="tel" id="mobile" placeholder="請輸入8位數字" required pattern="[0-9]{8}" maxlength="8" title="請輸入8位數字電話號碼">
+                                    <input type="tel" id="mobile" placeholder="請輸入8位數字" required maxlength="8">
                                 </div>
                             </div>
                         </div>
@@ -1843,24 +1843,40 @@
             });
         }
 
+        // Google Apps Script Web App URL for sheet integration
+        const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycby0zfSVGq0BChxxAni-y8iJ-FeHoau6Ret9U9Ja2IS7He33KgAkEFcS8WDolDXwrjWLLA/exec';
+
         if (registrationForm) {
             registrationForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
+                const chineseName = document.getElementById('chineseName').value;
+                const gradYear = document.getElementById('gradYear').value;
                 const mobileValue = document.getElementById('mobile').value;
                 const fullMobile = '852' + mobileValue;
                 
                 const formData = {
-                    chineseName: document.getElementById('chineseName').value,
-                    gradYear: document.getElementById('gradYear').value,
-                    mobile: fullMobile,
+                    name: chineseName,
+                    year: gradYear,
+                    phone: fullMobile,
                     timestamp: new Date().toISOString()
                 };
 
-                // Log to console (for debugging)
-                console.log('Registration Data:', formData);
+                // Send data to Google Sheets
+                fetch(GOOGLE_SHEETS_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8',
+                    },
+                    body: JSON.stringify(formData)
+                }).then(() => {
+                    console.log('Data sent to Google Sheets');
+                }).catch(err => {
+                    console.error('Error sending to Google Sheets:', err);
+                });
 
-                // Store in localStorage (for demo purposes)
+                // Store in localStorage (for local session)
                 const registrations = JSON.parse(localStorage.getItem('twgss_registrations') || '[]');
                 registrations.push(formData);
                 localStorage.setItem('twgss_registrations', JSON.stringify(registrations));
