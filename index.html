@@ -117,6 +117,26 @@
             text-align: center;
         }
 
+        .search-section.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+            filter: blur(3px);
+        }
+
+        .search-section.disabled::after {
+            content: '請先填寫嘉賓報到表單';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 121, 107, 0.9);
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-weight: 700;
+            z-index: 10;
+        }
+
         .search-label {
             font-size: 1rem;
             color: #00796B;
@@ -195,6 +215,14 @@
             text-align: center;
             margin-bottom: 18px;
             font-weight: 500;
+        }
+
+        .privacy-notice {
+            font-size: 0.7rem;
+            color: #666;
+            text-align: center;
+            margin-bottom: 15px;
+            font-style: italic;
         }
 
         .form-row {
@@ -622,24 +650,23 @@
 
                 <div class="registration-section" id="registrationSection">
                     <h3>嘉賓報到</h3>
+                    <p class="privacy-notice">所有收集的個人資料只用作登記入座及校友會日後聯絡之用</p>
                     <form id="registrationForm">
                         <div class="form-row">
                             <div class="form-group">
-                                <label>中文名 <span class="optional">(必填)</span></label>
+                                <label>中文姓名 <span class="optional">(必填)</span></label>
                                 <input type="text" id="chineseName" placeholder="請輸入中文姓名" required pattern="[\u4e00-\u9fa5]+" title="請輸入中文姓名">
-                            </div>
-                            <div class="form-group">
-                                <label>英文名 <span class="optional">(選填)</span></label>
-                                <input type="text" id="englishName" placeholder="請輸入英文姓名" pattern="[a-zA-Z\s]+" title="請輸入英文姓名">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label>畢業年份 <span class="optional">(必填)</span></label>
+                                <label>中五/畢業班 <span class="optional">(必填)</span></label>
                                 <input type="text" id="gradYear" placeholder="如: 1997" required pattern="[0-9]{4}" maxlength="4" minlength="4" title="請輸入4位數字年份">
                             </div>
+                        </div>
+                        <div class="form-row">
                             <div class="form-group">
-                                <label>手提電話 <span class="optional">(必填)</span></label>
+                                <label>電話號碼 <span class="optional">(必填)</span></label>
                                 <div class="mobile-input-wrapper">
                                     <span class="area-code">852</span>
                                     <input type="tel" id="mobile" placeholder="請輸入8位數字" required pattern="[0-9]{8}" maxlength="8" title="請輸入8位數字電話號碼">
@@ -647,23 +674,18 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group" style="flex: 3;">
-                                <label>電郵 <span class="optional">(選填)</span></label>
-                                <input type="email" id="email" placeholder="如: example@email.com">
-                            </div>
-                            <div class="form-group" style="flex: 1;">
-                                <label>&nbsp;</label>
-                                <button type="submit" class="submit-btn">提交</button>
+                            <div class="form-group">
+                                <button type="submit" class="submit-btn">提交 Submit</button>
                             </div>
                         </div>
                     </form>
                     <div id="formSuccess" class="form-success" style="display: none;">
                         <div class="form-success-icon">✓</div>
-                        <p>提交成功！</p>
+                        <p>提交成功！請使用下方搜尋功能查詢您的座枱</p>
                     </div>
                 </div>
 
-                <div class="search-section">
+                <div class="search-section" id="searchSection">
                     <p class="search-label">查詢座枱</p>
                     <div class="search-input-wrapper">
                         <input 
@@ -683,7 +705,7 @@
                 <!-- 枱位圖 Seating Plan -->
                 <div class="seating-plan-section">
                     <div class="seating-plan-toggle">
-                        <button class="toggle-btn" id="toggleSeatingPlan">查看場地枱位圖</button>
+                        <button class="toggle-btn" id="toggleSeatingPlan">提供各檯的Location圖供參考</button>
                     </div>
                     <div class="seating-plan-image-container" id="seatingPlanContainer">
                         <div class="seating-plan-wrapper">
@@ -697,7 +719,7 @@
                 </div>
 
                 <div class="database-toggle">
-                    <button class="toggle-btn" id="toggleDb">查看嘉賓名單</button>
+                    <button class="toggle-btn" id="toggleDb">提供全份出席者名單供參考</button>
                 </div>
 
                 <div class="full-database" id="fullDatabase">
@@ -1850,6 +1872,15 @@
                 // Show success message
                 registrationForm.style.display = 'none';
                 formSuccess.style.display = 'block';
+                
+                // Enable search after successful registration
+                const searchSection = document.getElementById('searchSection');
+                if (searchSection) {
+                    searchSection.classList.remove('disabled');
+                    searchSection.style.opacity = '1';
+                    searchSection.style.filter = 'none';
+                    searchSection.style.pointerEvents = 'auto';
+                }
             });
         }
 
@@ -1878,7 +1909,7 @@
             fullDatabase.classList.toggle('show');
             toggleBtn.textContent = fullDatabase.classList.contains('show') 
                 ? '隱藏名單' 
-                : '查看嘉賓名單';
+                : '提供全份出席者名單供參考';
         });
 
         // Seating Plan Toggle
@@ -1891,8 +1922,8 @@
             toggleSeatingPlanBtn.addEventListener('click', () => {
                 seatingPlanContainer.classList.toggle('show');
                 toggleSeatingPlanBtn.textContent = seatingPlanContainer.classList.contains('show') 
-                    ? '隱藏枱位圖' 
-                    : '查看場地枱位圖';
+                    ? '隱藏Location圖' 
+                    : '提供各檯的Location圖供參考';
             });
         }
 
@@ -1912,6 +1943,19 @@
         };
 
         populateFullDatabase();
+        
+        // Initialize search section as disabled on page load
+        const searchSection = document.getElementById('searchSection');
+        if (searchSection) {
+            // Check if user has already registered
+            const hasRegistered = localStorage.getItem('twgss_registrations');
+            if (!hasRegistered) {
+                searchSection.classList.add('disabled');
+                searchSection.style.opacity = '0.5';
+                searchSection.style.pointerEvents = 'none';
+                searchSection.style.position = 'relative';
+            }
+        }
     </script>
 </body>
 </html>
