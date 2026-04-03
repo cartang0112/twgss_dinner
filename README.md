@@ -1,6 +1,10 @@
-# Tsuen Wan Government Secondary School - 65th Gala Dinner
+# Tsuen Wan Government Secondary School - 65th Anniversary Gala Dinner
 
 荃灣官立中學六十五周年校慶晚宴嘉賓報到及座枱查詢系統
+
+## 網址 Website
+
+https://cartang0112.github.io/twgss_dinner/
 
 ## 功能 Features
 
@@ -8,6 +12,7 @@
 - **中文姓名** - 只能輸入中文字
 - **中五/畢業班** - 4位數字年份
 - **電話號碼** - 852 + 8位數字
+- **Google Sheets 整合** - 資料自動儲存至 Google Sheets
 
 私隱權聲明：所有收集的個人資料只用作登記入座及校友會日後聯絡之用
 
@@ -27,7 +32,7 @@
 - **顯示/隱藏** - 按鈕切換顯示
 
 ### 已簽到 Check-in Status
-- **已簽到提示** - 提交後顯示「已簽到」
+- **已簽到提示** - 提交後顯示「已簽到！請使用下方搜尋功能查詢您的座枱」
 - **重新簽到** - 可修改資料
 
 ## 檔案 Files
@@ -36,15 +41,13 @@
 |------|------|
 | `index.html` | 主網頁 (HTML + CSS + JavaScript) |
 | `1200px-TWGSS_Emblem.svg.png` | 學校校徽 |
-| `65th-Anniversary-Logo.jpg` | 65周年紀念標誌 |
+| `reference.jpeg` | 65th 紀念標誌 (含 th 上標) |
 | `Table 1 - 39.jpg.jpeg` | 場地枱位圖 |
-| `theme1.jpeg` | 邀請函設計 - 粉紅/金色主題 |
-| `theme2.jpeg` | 邀請函設計 - Navy/金色主題 |
 | `TWGSS Annual Dinner Seating Plan - 工作表1.csv` | 原始座枱資料 |
 
 ## 使用方法 How to Use
 
-1. 開啟 `index.html`
+1. 開啟網站或 `index.html`
 2. **填寫嘉賓報到表** - 輸入中文姓名、中五/畢業班、電話號碼
 3. **提交** - 點擊「提交」按鈕
 4. **查詢座枱** - 輸入姓名或畢業年份
@@ -69,7 +72,8 @@
 ## 技術規格
 
 - 響應式設計，支援手機及桌面電腦
-- 資料儲存於瀏覽器 localStorage
+- Google Apps Script 整合 - 資料自動儲存至 Google Sheets
+- 瀏覽器 localStorage 用作本地會話儲存
 - 支援所有現代瀏覽器 (Chrome, Firefox, Safari, Edge)
 
 ## 授權
