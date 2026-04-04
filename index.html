@@ -266,7 +266,7 @@
 
         .form-group label {
             display: block;
-            font-size: 0.75rem;
+            font-size: 1.5rem;
             color: #00695C;
             margin-bottom: 5px;
             font-weight: 700;
@@ -275,20 +275,48 @@
 
         .form-group .optional {
             font-weight: 400;
-            font-size: 0.65rem;
+            font-size: 1.3rem;
             color: #90A4AE;
         }
 
         .form-group input {
             width: 100%;
             padding: 12px 15px;
-            font-size: 0.95rem;
+            font-size: 1.9rem;
             border: 1px solid #B2DFDB;
             border-radius: 8px;
             background: #fff;
             color: #2D3436;
             font-family: 'Libre Baskerville', serif;
             transition: all 0.3s ease;
+        }
+
+        .identity-select {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 1.9rem;
+            border: 1px solid #B2DFDB;
+            border-radius: 8px;
+            background: #fff;
+            color: #2D3436;
+            font-family: 'Libre Baskerville', serif;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .identity-select:focus {
+            outline: none;
+            border-color: #00796B;
+            box-shadow: 0 0 10px rgba(0, 121, 107, 0.2);
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 1.5rem;
+            color: #00695C;
+            margin-bottom: 5px;
+            font-weight: 700;
+            line-height: 1.3;
         }
 
         .form-group input::placeholder {
@@ -473,7 +501,7 @@
 
         .seating-plan-image {
             width: 100%;
-            height: auto;
+            height: 600px;
             border-radius: 8px;
             display: block;
         }
@@ -682,27 +710,56 @@
                     <h3>嘉賓報到</h3>
                     <p class="privacy-notice">所有收集的個人資料只用作登記入座及校友會日後聯絡之用</p>
                     <form id="registrationForm">
+                        <!-- 身份選擇 -->
                         <div class="form-row">
                             <div class="form-group">
-                                <label>中文姓名 <span class="optional">(必填)</span></label>
-                                <input type="text" id="chineseName" placeholder="請輸入中文姓名" required>
+                                <label>身份 <span class="optional">(必填)</span></label>
+                                <select id="identity" class="identity-select" required>
+                                    <option value="">請選擇身份</option>
+                                    <option value="vip">貴賓席</option>
+                                    <option value="teacher">嘉賓老師</option>
+                                    <option value="pta">家長教師會</option>
+                                    <option value="staff">荃官教職員</option>
+                                    <option value="alumni">校友</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>中五/畢業班 <span class="optional">(必填)</span></label>
-                                <input type="text" id="gradYear" placeholder="如: 1997" required maxlength="4" minlength="4">
+
+                        <!-- 校友必填欄位 -->
+                        <div id="alumniFields" style="display: none;">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>中文姓名(繁體) <span class="optional">(必填)</span></label>
+                                    <input type="text" id="chineseName" placeholder="請輸入中文姓名">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>電話號碼 <span class="optional">(必填)</span></label>
-                                <div class="mobile-input-wrapper">
-                                    <span class="area-code">852</span>
-                                    <input type="tel" id="mobile" placeholder="請輸入8位數字" required maxlength="8">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>中五/DSE畢業班 <span class="optional">(必填)</span></label>
+                                    <input type="text" id="gradYear" placeholder="如: 1997" maxlength="4" minlength="4">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>電話號碼 <span class="optional">(必填)</span></label>
+                                    <div class="mobile-input-wrapper">
+                                        <span class="area-code">852</span>
+                                        <input type="tel" id="mobile" placeholder="請輸入8位數字" maxlength="8">
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- 非校友欄位 -->
+                        <div id="nonAlumniFields" style="display: none;">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>中文姓名(繁體) <span class="optional">(必填)</span></label>
+                                    <input type="text" id="chineseNameNonAlumni" placeholder="請輸入中文姓名">
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-row">
                             <div class="form-group">
                                 <button type="submit" class="submit-btn">提交</button>
@@ -711,7 +768,7 @@
                     </form>
                     <div id="formSuccess" class="form-success" style="display: none;">
                         <div class="form-success-icon">✓</div>
-                        <p>已簽到！請使用下方搜尋功能查詢您的座枱</p>
+                        <p id="successMessage">已簽到！請使用下方搜尋功能查詢您的座枱</p>
                     </div>
                 </div>
 
@@ -741,11 +798,11 @@
                 <!-- 枱位圖 Seating Plan -->
                 <div class="seating-plan-section">
                     <div class="seating-plan-toggle">
-                        <button class="toggle-btn" id="toggleSeatingPlan">提供各檯的Location圖供參考</button>
+                        <button class="toggle-btn" id="toggleSeatingPlan">提供各枱位置圖及座位編排表</button>
                     </div>
                     <div class="seating-plan-image-container" id="seatingPlanContainer">
                         <div class="seating-plan-wrapper">
-                            <img src="Table 1 - 39.jpg.jpeg" alt="場地枱位圖" class="seating-plan-image" id="seatingPlanImage">
+                            <embed src="Layout Plan.pdf" type="application/pdf" class="seating-plan-image" id="seatingPlanImage">
                         </div>
                         <div class="table-highlight-info" id="tableHighlightInfo">
                             <h4>您的枱號: <span id="highlightedTable"></span></h4>
@@ -1810,10 +1867,39 @@
         // Registration Form Handling
         const registrationForm = document.getElementById('registrationForm');
         const formSuccess = document.getElementById('formSuccess');
-        const registrationSection = document.getElementById('registrationSection');
+        const identitySelect = document.getElementById('identity');
+        const alumniFields = document.getElementById('alumniFields');
+        const nonAlumniFields = document.getElementById('nonAlumniFields');
+        const successMessage = document.getElementById('successMessage');
 
-        // Input validation and formatting
+        // Show/hide fields based on identity selection
+        if (identitySelect) {
+            identitySelect.addEventListener('change', function() {
+                const identity = this.value;
+                if (identity === 'alumni') {
+                    alumniFields.style.display = 'block';
+                    nonAlumniFields.style.display = 'none';
+                    // Set required attributes
+                    document.getElementById('chineseName').required = true;
+                    document.getElementById('gradYear').required = true;
+                    document.getElementById('mobile').required = true;
+                } else if (identity) {
+                    alumniFields.style.display = 'none';
+                    nonAlumniFields.style.display = 'block';
+                    // Clear required from alumni fields
+                    document.getElementById('chineseName').required = false;
+                    document.getElementById('gradYear').required = false;
+                    document.getElementById('mobile').required = false;
+                } else {
+                    alumniFields.style.display = 'none';
+                    nonAlumniFields.style.display = 'none';
+                }
+            });
+        }
+
+        // Input validation
         const chineseNameInput = document.getElementById('chineseName');
+        const chineseNameNonAlumniInput = document.getElementById('chineseNameNonAlumni');
         const gradYearInput = document.getElementById('gradYear');
         const mobileInput = document.getElementById('mobile');
 
@@ -1821,7 +1907,13 @@
         if (chineseNameInput) {
             chineseNameInput.addEventListener('input', function(e) {
                 const value = this.value;
-                // Remove non-Chinese characters
+                this.value = value.replace(/[^\u4e00-\u9fa5]/g, '');
+            });
+        }
+        
+        if (chineseNameNonAlumniInput) {
+            chineseNameNonAlumniInput.addEventListener('input', function(e) {
+                const value = this.value;
                 this.value = value.replace(/[^\u4e00-\u9fa5]/g, '');
             });
         }
@@ -1830,24 +1922,29 @@
         if (gradYearInput) {
             gradYearInput.addEventListener('input', function(e) {
                 const value = this.value;
-                // Only allow numbers
                 this.value = value.replace(/[^0-9]/g, '');
-                // Limit to 4 digits
                 if (this.value.length > 4) {
                     this.value = this.value.slice(0, 4);
                 }
             });
         }
 
-        // Mobile - only allow 8-digit numbers (香港手提電話)
+        // Mobile - only allow 8-digit numbers and validate
         if (mobileInput) {
             mobileInput.addEventListener('input', function(e) {
                 const value = this.value;
-                // Only allow numbers
                 this.value = value.replace(/[^0-9]/g, '');
-                // Limit to 8 digits
                 if (this.value.length > 8) {
                     this.value = this.value.slice(0, 8);
+                }
+            });
+            
+            // Validation on blur
+            mobileInput.addEventListener('blur', function() {
+                if (this.value.length > 0 && this.value.length < 8) {
+                    alert('電話號碼必須為8位數字，請重新輸入');
+                    this.value = '';
+                    this.focus();
                 }
             });
         }
@@ -1859,51 +1956,149 @@
             registrationForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                const chineseName = document.getElementById('chineseName').value;
-                const gradYear = document.getElementById('gradYear').value;
-                const mobileValue = document.getElementById('mobile').value;
-                const fullMobile = '852' + mobileValue;
+                const identity = document.getElementById('identity').value;
+                let chineseName, gradYear, mobileValue, fullMobile;
+                let tableNumber = null;
                 
-                const formData = {
-                    name: chineseName,
-                    year: gradYear,
-                    phone: fullMobile,
-                    timestamp: new Date().toISOString()
-                };
-
-                // Send data to Google Sheets
-                fetch(GOOGLE_SHEETS_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'text/plain;charset=utf-8',
-                    },
-                    body: JSON.stringify(formData)
-                }).then(() => {
-                    console.log('Data sent to Google Sheets');
-                }).catch(err => {
-                    console.error('Error sending to Google Sheets:', err);
-                });
-
-                // Store in localStorage (for local session)
-                const registrations = JSON.parse(localStorage.getItem('twgss_registrations') || '[]');
-                registrations.push(formData);
-                localStorage.setItem('twgss_registrations', JSON.stringify(registrations));
-
-                // Show success message
-                registrationForm.style.display = 'none';
-                formSuccess.style.display = 'block';
-                
-                // Enable search after successful registration
-                const searchSection = document.getElementById('searchSection');
-                if (searchSection) {
-                    searchSection.classList.remove('disabled');
-                    searchSection.style.opacity = '1';
-                    searchSection.style.filter = 'none';
-                    searchSection.style.pointerEvents = 'auto';
+                if (identity === 'alumni') {
+                    chineseName = document.getElementById('chineseName').value;
+                    gradYear = document.getElementById('gradYear').value;
+                    mobileValue = document.getElementById('mobile').value;
+                    
+                    // Validate phone is 8 digits
+                    if (mobileValue.length !== 8) {
+                        alert('電話號碼必須為8位數字，請重新輸入');
+                        document.getElementById('mobile').focus();
+                        return;
+                    }
+                    
+                    fullMobile = '852' + mobileValue;
+                    
+                    // Search for table number in database
+                    const searchTerm = chineseName.toLowerCase().trim();
+                    const matches = database.filter(guest => 
+                        guest.name.toLowerCase().includes(searchTerm)
+                    );
+                    
+                    if (matches.length > 0) {
+                        tableNumber = matches[0].table;
+                    }
+                    
+                    // Show confirmation
+                    const confirmMsg = `請確認資料正確：\n\n姓名：${chineseName}\n畢業年份：${gradYear}\n電話號碼：${fullMobile}${tableNumber ? '\n枱號：' + tableNumber + '號枱' : ''}\n\n確認無誤後，請按「確定」提交。`;
+                    
+                    if (!confirm(confirmMsg)) {
+                        return;
+                    }
+                    
+                    const formData = {
+                        name: chineseName,
+                        year: gradYear,
+                        phone: fullMobile,
+                        identity: identity,
+                        table: tableNumber,
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    // Send to Google Sheets
+                    fetch(GOOGLE_SHEETS_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: {
+                            'Content-Type': 'text/plain;charset=utf-8',
+                        },
+                        body: JSON.stringify(formData)
+                    }).catch(err => console.error('Error:', err));
+                    
+                    // Store locally
+                    const registrations = JSON.parse(localStorage.getItem('twgss_registrations') || '[]');
+                    registrations.push(formData);
+                    localStorage.setItem('twgss_registrations', JSON.stringify(registrations));
+                    
+                    // Show success with table number
+                    registrationForm.style.display = 'none';
+                    formSuccess.style.display = 'block';
+                    
+                    if (tableNumber) {
+                        successMessage.textContent = `已簽到！您的枱號是：${tableNumber} 號枱`;
+                    } else {
+                        successMessage.textContent = '已簽到！系統未能找到您的枱號，請聯絡工作人員。';
+                    }
+                    
+                    // Enable search
+                    const searchSection = document.getElementById('searchSection');
+                    if (searchSection) {
+                        searchSection.classList.remove('disabled');
+                        searchSection.style.opacity = '1';
+                        searchSection.style.filter = 'none';
+                        searchSection.style.pointerEvents = 'auto';
+                    }
+                    
+                } else {
+                    // Non-alumni (VIP, teacher, PTA, staff)
+                    chineseName = document.getElementById('chineseNameNonAlumni').value;
+                    
+                    // Search in tables 1-8 (limited for non-alumni)
+                    const searchTerm = chineseName.toLowerCase().trim();
+                    const matches = database.filter(guest => 
+                        guest.name.toLowerCase().includes(searchTerm) && 
+                        guest.table >= 1 && guest.table <= 8
+                    );
+                    
+                    if (matches.length > 0) {
+                        tableNumber = matches[0].table;
+                    }
+                    
+                    // Show confirmation
+                    const confirmMsg = `請確認資料正確：\n\n身份：${identity}\n姓名：${chineseName}${tableNumber ? '\n枱號：' + tableNumber + '號枱' : ''}\n\n確認無誤後，請按「確定」提交。`;
+                    
+                    if (!confirm(confirmMsg)) {
+                        return;
+                    }
+                    
+                    const formData = {
+                        name: chineseName,
+                        identity: identity,
+                        table: tableNumber,
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    // Send to Google Sheets
+                    fetch(GOOGLE_SHEETS_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: {
+                            'Content-Type': 'text/plain;charset=utf-8',
+                        },
+                        body: JSON.stringify(formData)
+                    }).catch(err => console.error('Error:', err));
+                    
+                    // Store locally
+                    const registrations = JSON.parse(localStorage.getItem('twgss_registrations') || '[]');
+                    registrations.push(formData);
+                    localStorage.setItem('twgss_registrations', JSON.stringify(registrations));
+                    
+                    // Show success with table number
+                    registrationForm.style.display = 'none';
+                    formSuccess.style.display = 'block';
+                    
+                    if (tableNumber) {
+                        successMessage.textContent = `已簽到！您的枱號是：${tableNumber} 號枱`;
+                    } else {
+                        successMessage.textContent = '已簽到！系統未能找到您的枱號，請聯絡工作人員。';
+                    }
+                    
+                    // Enable search
+                    const searchSection = document.getElementById('searchSection');
+                    if (searchSection) {
+                        searchSection.classList.remove('disabled');
+                        searchSection.style.opacity = '1';
+                        searchSection.style.filter = 'none';
+                        searchSection.style.pointerEvents = 'auto';
+                    }
                 }
                 
-                // Show checkin entry button after successful registration
+                // Show checkin entry button
                 const checkinEntry = document.querySelector('.checkin-entry');
                 if (checkinEntry) {
                     checkinEntry.style.display = 'block';
@@ -1912,7 +2107,13 @@
         }
 
         function populateFullDatabase() {
-            const sortedDb = [...database].sort((a, b) => a.name.localeCompare('zh-HK'));
+            // Sort by table number (ascending), then by name
+            const sortedDb = [...database].sort((a, b) => {
+                if (a.table !== b.table) {
+                    return a.table - b.table;
+                }
+                return a.name.localeCompare('zh-HK');
+            });
             databaseBody.innerHTML = sortedDb.map(guest => `
                 <tr>
                     <td>${guest.name}</td>
@@ -1949,8 +2150,8 @@
             toggleSeatingPlanBtn.addEventListener('click', () => {
                 seatingPlanContainer.classList.toggle('show');
                 toggleSeatingPlanBtn.textContent = seatingPlanContainer.classList.contains('show') 
-                    ? '隱藏Location圖' 
-                    : '提供各檯的Location圖供參考';
+                    ? '隱藏位置圖及座位編排表' 
+                    : '提供各枱位置圖及座位編排表';
             });
         }
 
