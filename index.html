@@ -139,7 +139,7 @@
         }
 
         .search-section.disabled::after {
-            content: '請先填寫嘉賓報到表單';
+            content: '請先填寫貴賓報到表單';
             position: absolute;
             top: 50%;
             left: 50%;
@@ -150,6 +150,12 @@
             border-radius: 8px;
             font-weight: 700;
             z-index: 10;
+            width: 80%;
+            text-align: center;
+        }
+
+        .search-section.hidden {
+            display: none;
         }
 
         .search-label {
@@ -2028,6 +2034,7 @@
                     // Enable search
                     const searchSection = document.getElementById('searchSection');
                     if (searchSection) {
+                        searchSection.classList.remove('hidden');
                         searchSection.classList.remove('disabled');
                         searchSection.style.opacity = '1';
                         searchSection.style.filter = 'none';
@@ -2091,6 +2098,7 @@
                     // Enable search
                     const searchSection = document.getElementById('searchSection');
                     if (searchSection) {
+                        searchSection.classList.remove('hidden');
                         searchSection.classList.remove('disabled');
                         searchSection.style.opacity = '1';
                         searchSection.style.filter = 'none';
@@ -2187,9 +2195,10 @@
                 formSuccess.style.display = 'none';
             }
             if (searchSection) {
-                searchSection.classList.add('disabled');
-                searchSection.style.opacity = '0.5';
-                searchSection.style.pointerEvents = 'none';
+                searchSection.classList.add('hidden');
+                searchSection.classList.remove('disabled');
+                searchSection.style.opacity = '';
+                searchSection.style.pointerEvents = '';
             }
             
             // Hide checkin entry button
@@ -2204,16 +2213,13 @@
         
         populateFullDatabase();
         
-        // Initialize search section as disabled on page load
+        // Initialize search section as hidden on page load (show only after registration)
         const searchSection = document.getElementById('searchSection');
         if (searchSection) {
             // Check if user has already registered
             const hasRegistered = localStorage.getItem('twgss_registrations');
             if (!hasRegistered) {
-                searchSection.classList.add('disabled');
-                searchSection.style.opacity = '0.5';
-                searchSection.style.pointerEvents = 'none';
-                searchSection.style.position = 'relative';
+                searchSection.classList.add('hidden');
             }
         }
     </script>
