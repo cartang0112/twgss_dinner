@@ -707,7 +707,7 @@
                 </div>
 
                 <div class="registration-section" id="registrationSection">
-                    <h3>嘉賓報到</h3>
+                    <h3>貴賓報到</h3>
                     <p class="privacy-notice">所有收集的個人資料只用作登記入座及校友會日後聯絡之用</p>
                     <form id="registrationForm">
                         <!-- 身份選擇 -->
@@ -1985,7 +1985,7 @@
                     }
                     
                     // Show confirmation
-                    const confirmMsg = `請確認資料正確：\n\n姓名：${chineseName}\n畢業年份：${gradYear}\n電話號碼：${fullMobile}${tableNumber ? '\n枱號：' + tableNumber + '號枱' : ''}\n\n確認無誤後，請按「確定」提交。`;
+                    const confirmMsg = `請確認資料正確：\n\n姓名：${chineseName}\n畢業年份：${gradYear}\n電話號碼：${fullMobile}\n\n確認無誤後，請按「確定」提交。`;
                     
                     if (!confirm(confirmMsg)) {
                         return;
@@ -2050,7 +2050,7 @@
                     }
                     
                     // Show confirmation
-                    const confirmMsg = `請確認資料正確：\n\n身份：${identity}\n姓名：${chineseName}${tableNumber ? '\n枱號：' + tableNumber + '號枱' : ''}\n\n確認無誤後，請按「確定」提交。`;
+                    const confirmMsg = `請確認資料正確：\n\n身份：${identity}\n姓名：${chineseName}\n\n確認無誤後，請按「確定」提交。`;
                     
                     if (!confirm(confirmMsg)) {
                         return;
