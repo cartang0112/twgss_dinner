@@ -1245,6 +1245,17 @@
                 e.preventDefault();
                 
                 const identity = document.getElementById('identity').value;
+                
+                // Map identity values to Chinese labels
+                const identityLabels = {
+                    'vip': '貴賓席',
+                    'teacher': '嘉賓老師',
+                    'pta': '家長教師會',
+                    'staff': '荃官教職員',
+                    'alumni': '校友'
+                };
+                const identityLabel = identityLabels[identity] || identity;
+                
                 let chineseName, gradYear, mobileValue, fullMobile;
                 let tableNumber = null;
                 
@@ -1273,7 +1284,7 @@
                     }
                     
                     // Show confirmation
-                    const confirmMsg = `請確認資料正確：\n\n姓名：${chineseName}\n畢業年份：${gradYear}\n電話號碼：${fullMobile}\n\n確認無誤後，請按「確定」提交。`;
+                    const confirmMsg = `請確認資料正確：\n\n姓名：${chineseName}\n畢業年份：${gradYear}\n電話號碼：${fullMobile}\n身份：${identityLabel}\n\n確認無誤後，請按「確定」提交。`;
                     
                     if (!confirm(confirmMsg)) {
                         return;
@@ -1283,7 +1294,7 @@
                         name: chineseName,
                         year: gradYear,
                         phone: fullMobile,
-                        identity: identity,
+                        identity: identityLabel,
                         table: tableNumber,
                         timestamp: new Date().toISOString()
                     };
@@ -1339,7 +1350,7 @@
                     }
                     
                     // Show confirmation
-                    const confirmMsg = `請確認資料正確：\n\n身份：${identity}\n姓名：${chineseName}\n\n確認無誤後，請按「確定」提交。`;
+                    const confirmMsg = `請確認資料正確：\n\n身份：${identityLabel}\n姓名：${chineseName}\n\n確認無誤後，請按「確定」提交。`;
                     
                     if (!confirm(confirmMsg)) {
                         return;
@@ -1347,7 +1358,7 @@
                     
                     const formData = {
                         name: chineseName,
-                        identity: identity,
+                        identity: identityLabel,
                         table: tableNumber,
                         timestamp: new Date().toISOString()
                     };
