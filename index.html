@@ -382,6 +382,48 @@
             box-shadow: none !important;
         }
 
+        .autocomplete-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .suggestions-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #B2DFDB;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .suggestions-dropdown.show {
+            display: block;
+        }
+
+        .suggestion-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #E8F5F3;
+            transition: background 0.2s;
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item:hover {
+            background: #E8F5F3;
+            color: #00796B;
+        }
+
         .form-group input {
             width: 100%;
             padding: 12px 15px;
@@ -914,7 +956,10 @@
                             <div class="form-row">
                                 <div class="form-group">
                                     <label>中文姓名(繁體) <span class="optional">(必填)</span></label>
-                                    <input type="text" id="chineseName" placeholder="請輸入中文姓名">
+                                    <div class="autocomplete-wrapper">
+                                        <input type="text" id="chineseName" placeholder="請輸入中文姓名" autocomplete="off">
+                                        <div id="nameSuggestions" class="suggestions-dropdown"></div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -939,7 +984,10 @@
                             <div class="form-row">
                                 <div class="form-group">
                                     <label>中文姓名(繁體) <span class="optional">(必填)</span></label>
-                                    <input type="text" id="chineseNameNonAlumni" placeholder="請輸入中文姓名">
+                                    <div class="autocomplete-wrapper">
+                                        <input type="text" id="chineseNameNonAlumni" placeholder="請輸入中文姓名" autocomplete="off">
+                                        <div id="nameSuggestionsNonAlumni" class="suggestions-dropdown"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1179,19 +1227,92 @@
         const chineseNameNonAlumniInput = document.getElementById('chineseNameNonAlumni');
         const gradYearInput = document.getElementById('gradYear');
         const mobileInput = document.getElementById('mobile');
+        const nameSuggestions = document.getElementById('nameSuggestions');
+        const nameSuggestionsNonAlumni = document.getElementById('nameSuggestionsNonAlumni');
 
-        // Chinese name - only allow Chinese characters
+        // Autocomplete for Chinese name input (Alumni)
         if (chineseNameInput) {
             chineseNameInput.addEventListener('input', function(e) {
                 const value = this.value;
+                // Only allow Chinese characters
                 this.value = value.replace(/[^\u4e00-\u9fa5]/g, '');
+                
+                // Show suggestions
+                const searchTerm = this.value.trim().toLowerCase();
+                if (searchTerm.length > 0 && database.length > 0) {
+                    const matches = database.filter(guest => 
+                        guest.name.toLowerCase().startsWith(searchTerm)
+                    ).slice(0, 10); // Show max 10 suggestions
+                    
+                    if (matches.length > 0) {
+                        nameSuggestions.innerHTML = matches.map(guest => 
+                            `<div class="suggestion-item" data-name="${guest.name}">${guest.name} (${guest.table}號枱)</div>`
+                        ).join('');
+                        nameSuggestions.classList.add('show');
+                    } else {
+                        nameSuggestions.classList.remove('show');
+                    }
+                } else {
+                    nameSuggestions.classList.remove('show');
+                }
+            });
+            
+            // Handle suggestion click
+            nameSuggestions.addEventListener('click', function(e) {
+                if (e.target.classList.contains('suggestion-item')) {
+                    const selectedName = e.target.getAttribute('data-name');
+                    chineseNameInput.value = selectedName;
+                    nameSuggestions.classList.remove('show');
+                }
+            });
+            
+            // Close suggestions when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!chineseNameInput.contains(e.target) && !nameSuggestions.contains(e.target)) {
+                    nameSuggestions.classList.remove('show');
+                }
             });
         }
         
+        // Autocomplete for Chinese name input (Non-Alumni)
         if (chineseNameNonAlumniInput) {
             chineseNameNonAlumniInput.addEventListener('input', function(e) {
                 const value = this.value;
                 this.value = value.replace(/[^\u4e00-\u9fa5]/g, '');
+                
+                const searchTerm = this.value.trim().toLowerCase();
+                if (searchTerm.length > 0 && database.length > 0) {
+                    // For non-alumni, search tables 1-8 only
+                    const matches = database.filter(guest => 
+                        guest.name.toLowerCase().startsWith(searchTerm) && 
+                        guest.table >= 1 && guest.table <= 8
+                    ).slice(0, 10);
+                    
+                    if (matches.length > 0) {
+                        nameSuggestionsNonAlumni.innerHTML = matches.map(guest => 
+                            `<div class="suggestion-item" data-name="${guest.name}">${guest.name} (${guest.table}號枱)</div>`
+                        ).join('');
+                        nameSuggestionsNonAlumni.classList.add('show');
+                    } else {
+                        nameSuggestionsNonAlumni.classList.remove('show');
+                    }
+                } else {
+                    nameSuggestionsNonAlumni.classList.remove('show');
+                }
+            });
+            
+            nameSuggestionsNonAlumni.addEventListener('click', function(e) {
+                if (e.target.classList.contains('suggestion-item')) {
+                    const selectedName = e.target.getAttribute('data-name');
+                    chineseNameNonAlumniInput.value = selectedName;
+                    nameSuggestionsNonAlumni.classList.remove('show');
+                }
+            });
+            
+            document.addEventListener('click', function(e) {
+                if (!chineseNameNonAlumniInput.contains(e.target) && !nameSuggestionsNonAlumni.contains(e.target)) {
+                    nameSuggestionsNonAlumni.classList.remove('show');
+                }
             });
         }
 
