@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-HK">
-<head>
+<head> <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-P0NHMJ6EBF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-P0NHMJ6EBF');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tsuen Wan Government Secondary School - 65th Anniversary Gala Dinner</title>
@@ -764,6 +772,104 @@
         .footer span {
             font-weight: 500;
         }
+
+        .header-footer {
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 5px;
+        }
+
+        .header-footer a {
+            text-decoration: none;
+            color: #90A4AE;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-family: 'Libre Baskerville', serif;
+            font-size: 0.7rem;
+        }
+
+        .header-footer a:hover {
+            color: #00796B;
+        }
+
+        .header-footer .footer-logo {
+            height: 16px;
+            width: auto;
+        }
+
+        .top-footer {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .top-footer a {
+            text-decoration: none;
+            color: #00796B;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Libre Baskerville', serif;
+            font-size: 0.75rem;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 6px 12px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .top-footer a:hover {
+            color: #00695C;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 8px rgba(0, 121, 107, 0.2);
+        }
+
+        .top-footer .footer-logo {
+            height: 18px;
+            width: auto;
+        }
+
+        .top-footer span {
+            font-weight: 500;
+        }
+
+        .bottom-footer {
+            margin-top: 20px;
+            padding: 15px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .bottom-footer a {
+            text-decoration: none;
+            color: #00796B;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Libre Baskerville', serif;
+            font-size: 0.8rem;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 8px 16px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .bottom-footer a:hover {
+            color: #00695C;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 2px 8px rgba(0, 121, 107, 0.2);
+        }
+
+        .bottom-footer .footer-logo {
+            height: 20px;
+            width: auto;
+        }
+
+        .bottom-footer span {
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
@@ -1398,8 +1504,8 @@
         }
     </script>
     
-    <!-- Footer -->
-    <div class="footer">
+    <!-- EventX Footer - Bottom Middle -->
+    <div class="bottom-footer">
         <a href="https://eventx.io/" target="_blank" rel="noopener">
             Powered by <span>EventX</span>
             <img src="https://eventx.io/logo.png" alt="EventX" class="footer-logo" onerror="this.style.display='none'">
