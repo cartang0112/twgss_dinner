@@ -46,6 +46,12 @@ https://cartang0112.github.io/twgss_dinner/
 - **枱號排序** - 由小至大排列
 - **顯示/隱藏** - 按鈕切換顯示
 
+### 下載資料 Downloads
+- **1966-1984 屆校友座位表** - 1966-1984年畢業校友座位安排
+- **1985-2024 屆校友座位表** - 1985-2024年畢業校友座位安排
+- **宴會餐枱佈置圖** - 場地佈置圖
+- **座位編排表** - 完整座位編排表
+
 ### 已簽到 Check-in Status
 - **已簽到提示** - 提交後顯示枱號
 - **重新簽到** - 可修改資料
@@ -58,15 +64,11 @@ https://cartang0112.github.io/twgss_dinner/
 | `1200px-TWGSS_Emblem.svg.png` | 學校校徽 |
 | `reference.jpeg` | 65th 紀念標誌 (含 th 上標) |
 | `Layout Plan.pdf` | 場地枱位圖及座位編排表 |
-| `Information of Attendants for 65th Gala Dinner_Carmen.csv` | 嘉賓資料庫 (Excel格式) |
-
-## 資料庫更新 Database Update
-
-如需更新嘉賓資料庫：
-1. 打開 Excel 檔案
-2. 確保欄位順序為：姓名、畢業年份、枱號
-3. 匯出為 CSV 格式
-4. 將資料轉換為 JavaScript array 格式並更新 index.html
+| `Seating Arrangement_1966-1984.jpg.jpeg` | 1966-1984屆校友座位表 |
+| `Seating Arrangement_1985-2024.jpg.jpeg` | 1985-2024屆校友座位表 |
+| `宴會餐枱佈置圖_Sample.jpg.jpeg` | 宴會餐枱佈置圖 |
+| `座位編排表_01.pdf` | 座位編排表 |
+| `Information of Attendants for 65th Gala Dinner_Carmen - Seating Details.csv` | 嘉賓資料庫 (Excel格式) |
 
 ## 使用方法 How to Use
 
@@ -79,9 +81,9 @@ https://cartang0112.github.io/twgss_dinner/
 
 ## 資料庫 Database
 
-嘉賓資料庫包含 **981位嘉賓**，分為 **79枱**：
+嘉賓資料庫包含 **1000+位嘉賓**，分為 **79枱**：
 - 1-2號枱：貴賓席 (VIP)
-- 3-8號枱：教職員/嘉賓老師
+- 3-8號枱：教職員/嘉賓老師/家長教師會
 - 9-79號枱：校友 (1966-2024年畢業)
 
 ## 顏色主題 Theme
