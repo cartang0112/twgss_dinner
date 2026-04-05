@@ -19,7 +19,7 @@ https://cartang0112.github.io/twgss_dinner/
 
 **校友 required fields:**
 - **中文姓名(繁體)** - 只能輸入中文字
-- **中五/DSE畢業班** - 4位數字年份
+- **中五/DSE畢業班** - 4位數字年份 (1950-今年，系統會驗證)
 - **電話號碼** - 852 + 8位數字 (必須8位，否則須重新輸入)
 
 **非校友 required fields:**
@@ -58,7 +58,15 @@ https://cartang0112.github.io/twgss_dinner/
 | `1200px-TWGSS_Emblem.svg.png` | 學校校徽 |
 | `reference.jpeg` | 65th 紀念標誌 (含 th 上標) |
 | `Layout Plan.pdf` | 場地枱位圖及座位編排表 |
-| `TWGSS Annual Dinner Seating Plan - 工作表1.csv` | 原始座枱資料 |
+| `Information of Attendants for 65th Gala Dinner_Carmen.csv` | 嘉賓資料庫 (Excel格式) |
+
+## 資料庫更新 Database Update
+
+如需更新嘉賓資料庫：
+1. 打開 Excel 檔案
+2. 確保欄位順序為：姓名、畢業年份、枱號
+3. 匯出為 CSV 格式
+4. 將資料轉換為 JavaScript array 格式並更新 index.html
 
 ## 使用方法 How to Use
 
