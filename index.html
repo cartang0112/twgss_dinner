@@ -579,6 +579,47 @@
             border-top: 2px solid #00796B;
         }
 
+        .download-section {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 18px;
+            border-top: 2px solid #00796B;
+        }
+
+        .download-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            color: #00796B;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .download-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .download-btn {
+            display: block;
+            background: #00796B;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-family: 'Libre Baskerville', serif;
+            letter-spacing: 1px;
+            padding: 15px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: #00695C;
+            box-shadow: 0 4px 15px rgba(0, 121, 107, 0.3);
+        }
+
         .toggle-btn {
             background: #00796B;
             border: none;
@@ -832,6 +873,17 @@
                         </thead>
                         <tbody id="databaseBody"></tbody>
                     </table>
+                </div>
+
+                <!-- Download Section -->
+                <div class="download-section">
+                    <h3 class="download-title">下載資料</h3>
+                    <div class="download-links">
+                        <a href="Seating Arrangement_1966-1984.jpg.jpeg" download class="download-btn">1966-1984 屆校友座位表</a>
+                        <a href="Seating Arrangement_1985-2024.jpg.jpeg" download class="download-btn">1985-2024 屆校友座位表</a>
+                        <a href="宴會餐枱佈置圖_Sample.jpg.jpeg" download class="download-btn">宴會餐枱佈置圖</a>
+                        <a href="座位編排表_01.pdf" download class="download-btn">座位編排表</a>
+                    </div>
                 </div>
             </div>
         </div>
